@@ -1,4 +1,4 @@
-# MoveFlix
+# MovieFlix
 
 # Sobre o projeto
 
@@ -17,11 +17,11 @@ Um mesmo usuário membro pode deixar mais de uma avaliação para o mesmo filme.
 
 # Modelo Conceitual
 
-![Modelo](https://github.com/galetedanilo/moveflix/blob/master/assets/modelo.png)
+![Modelo](https://github.com/galetedanilo/movieflix/blob/master/assets/modelo.png)
 
 # Padrão Camada
 
-![Padrao](https://github.com/galetedanilo/moveflix/blob/master/assets/camadas.png)
+![Padrao](https://github.com/galetedanilo/movieflix/blob/master/assets/camadas.png)
 
 # Tecnologias Utilizadas
 
@@ -47,7 +47,7 @@ Pré-requisito: Java 11
 
 ```bash
 # clonar repositório
-git clone https://github.com/galetedanilo/moveflix.git
+git clone https://github.com/galetedanilo/movieflix.git
 
 # entrar na pasta do back end
 cd backend
