@@ -14,3 +14,10 @@ INSERT INTO tb_genre (name) VALUES ('Ação');
 INSERT INTO tb_genre (name) VALUES ('Aventura');
 INSERT INTO tb_genre (name) VALUES ('Comédia');
 INSERT INTO tb_genre (name) VALUES ('Terror');
+
+INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Os Cara de Pau', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 2);
+INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Homem de Ferro', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 3);
+INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Capitão America', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 4);
+INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('DEUS é Brasileiro', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 3);
+INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Homem Aranha', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 4);
+INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Se Beber não Case', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 1);
