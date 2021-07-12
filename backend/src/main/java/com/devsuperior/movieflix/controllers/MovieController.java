@@ -30,7 +30,6 @@ public class MovieController implements Serializable {
 	@Autowired
 	private MovieService service;
 	
-	
 	@GetMapping
 	public ResponseEntity<Page<MovieDTO>> findAll(Pageable pageable) {
 		

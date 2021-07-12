@@ -21,3 +21,8 @@ INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUE
 INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('DEUS é Brasileiro', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 3);
 INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Homem Aranha', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 4);
 INSERT INTO tb_movie (title, sub_Title, year, img_Url, synopsis, genre_Id) VALUES ('Se Beber não Case', 'De Volta em Ação', 2005, 'http://moviesflix.com.br/images/movies/os-caras-de-pau.img', 'Este é um filme que vai ...', 1);
+
+INSERT INTO tb_review (text, movie_Id, user_Id) VALUES ('Este filme é muito legal e divertido', 1, 1);
+INSERT INTO tb_review (text, movie_Id, user_Id) VALUES ('Não gostei podia ter mais ação', 2, 2);
+INSERT INTO tb_review (text, movie_Id, user_Id) VALUES ('Cara da muito medo mesmo', 1, 1);
+INSERT INTO tb_review (text, movie_Id, user_Id) VALUES ('Bom não vejo a hora de sair o dois', 3, 3);

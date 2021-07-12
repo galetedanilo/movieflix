@@ -13,10 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devsuperior.movieflix.dto.ReviewDTO;
+import com.devsuperior.movieflix.dto.ReviewFullDTO;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.repositories.ReviewRepository;
+import com.devsuperior.movieflix.repositories.UserRepository;
 import com.devsuperior.movieflix.services.exceptions.DatabaseException;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 
@@ -31,31 +32,35 @@ public class ReviewService implements Serializable {
 	@Autowired
 	private MovieRepository movieRepository;
 	
-	private void copyDtoToEntity(ReviewDTO dto, Review entity) {
+	@Autowired
+	private UserRepository userRepository;
+	
+	private void copyDtoToEntity(ReviewFullDTO dto, Review entity) {
 		entity.setText(dto.getText());
 		entity.setMovie(movieRepository.getById(dto.getMovie().getId()));
+		entity.setUser(userRepository.getById(dto.getUser().getId()));
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<ReviewDTO> findAll(Pageable pageable) {
+	public Page<ReviewFullDTO> findAll(Pageable pageable) {
 		
 		Page<Review> page = repository.findAll(pageable);
 		
-		return page.map(x -> new ReviewDTO(x));
+		return page.map(x -> new ReviewFullDTO(x));
 	}
 	
 	@Transactional(readOnly = true)
-	public ReviewDTO findById(Long id) {
+	public ReviewFullDTO findById(Long id) {
 		
 		Optional<Review> optional = repository.findById(id);
 		
 		Review entity = optional.orElseThrow(() -> new ResourceNotFoundException("Entity not found."));
 		
-		return new ReviewDTO(entity);
+		return new ReviewFullDTO(entity);
 	}
 	
 	@Transactional
-	public ReviewDTO insert(ReviewDTO dto) {
+	public ReviewFullDTO insert(ReviewFullDTO dto) {
 		
 		try {
 			Review entity = new Review();
@@ -64,14 +69,14 @@ public class ReviewService implements Serializable {
 			
 			entity = repository.save(entity);
 			
-			return new ReviewDTO(entity);
+			return new ReviewFullDTO(entity);
 		}catch(DataIntegrityViolationException ex) {
 			throw new DatabaseException("Constraint violation.");
 		}
 	}
 	
 	@Transactional
-	public ReviewDTO update(Long id, ReviewDTO dto) {
+	public ReviewFullDTO update(Long id, ReviewFullDTO dto) {
 		
 		try {
 			Review entity = repository.getById(id);
@@ -80,7 +85,7 @@ public class ReviewService implements Serializable {
 			
 			entity = repository.save(entity);
 			
-			return new ReviewDTO(entity);
+			return new ReviewFullDTO(entity);
 		}catch(EntityNotFoundException ex) {
 			throw new ResourceNotFoundException("Entity not found " + id + ".");
 		}catch(DataIntegrityViolationException ex) {
