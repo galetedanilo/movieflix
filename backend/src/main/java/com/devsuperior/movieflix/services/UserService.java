@@ -10,6 +10,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +27,10 @@ import com.devsuperior.movieflix.repositories.RoleRepository;
 import com.devsuperior.movieflix.repositories.UserRepository;
 import com.devsuperior.movieflix.services.exceptions.DatabaseException;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.movieflix.services.exceptions.UnauthorizedException;
 
 @Service
-public class UserService implements Serializable {
+public class UserService implements UserDetailsService, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -34,10 +40,13 @@ public class UserService implements Serializable {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	private void copyDtoToEntity(UserFullDTO dto, User entity) {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
-		entity.setPassword(dto.getPassword());
+		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		
 		entity.getRoles().clear();
 		
@@ -47,6 +56,24 @@ public class UserService implements Serializable {
 			
 			entity.getRoles().add(role);
 		}
+	}
+	
+	@Transactional(readOnly = true)
+	public UserDTO showProfile() {
+		
+		try {
+			String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+			
+			User entity = new User();
+			
+			entity = repository.findByEmail(userName);
+			
+			return new UserDTO(entity);
+		}catch(Exception ex) {
+			throw new UnauthorizedException("Invalid user");
+		}
+		
+		
 	}
 	
 	@Transactional(readOnly = true)
@@ -111,6 +138,18 @@ public class UserService implements Serializable {
 		}catch(DataIntegrityViolationException ex) {
 			throw new DatabaseException("Integrity violation.");
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		User user = repository.findByEmail(username);
+		
+		if(user == null) {
+			throw new UsernameNotFoundException("Email not found.");
+		}
+		
+		return user;
 	}
 
 }

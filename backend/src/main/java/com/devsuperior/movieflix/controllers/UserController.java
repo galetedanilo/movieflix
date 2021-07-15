@@ -31,6 +31,14 @@ public class UserController implements Serializable {
 	@Autowired
 	private UserService service;
 	
+	@GetMapping(value = "/profile")
+	public ResponseEntity<UserDTO> showProfile() {
+		
+		UserDTO dto = service.showProfile();
+		
+		return ResponseEntity.ok().body(dto);
+	}
+	
 	@GetMapping
 	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
 		
