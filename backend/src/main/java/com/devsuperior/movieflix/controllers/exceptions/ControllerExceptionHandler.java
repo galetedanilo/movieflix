@@ -8,19 +8,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.devsuperior.movieflix.services.exceptions.DatabaseException;
-import com.devsuperior.movieflix.services.exceptions.ForbiddenException;
-import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
-import com.devsuperior.movieflix.services.exceptions.UnauthorizedException;
+import com.devsuperior.movieflix.services.exception.DatabaseException;
+import com.devsuperior.movieflix.services.exception.ResourceNotFoundException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ControllerExceptionHandler {
+
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> database(DatabaseException ex, HttpServletRequest req) {
+		
+		StandardError  error = new StandardError();
+		
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		error.setTimestamp(Instant.now());
+		error.setStatus(status.value());
+		error.setError("Database Exception.");
+		error.setMessage(ex.getMessage());
+		error.setPath(req.getRequestURI());
+		
+		return ResponseEntity.status(status).body(error);
+	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
+	public ResponseEntity<StandardError> resouceNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
 		
 		StandardError error = new StandardError();
 		
@@ -28,31 +42,15 @@ public class ControllerExceptionHandler {
 		
 		error.setTimestamp(Instant.now());
 		error.setStatus(status.value());
-		error.setError("Resource not found.");
+		error.setError("Resource Not Found.");
 		error.setMessage(ex.getMessage());
-		error.setPath(request.getRequestURI());
-		
-		return ResponseEntity.status(status).body(error);
-	}
-	
-	@ExceptionHandler(DatabaseException.class)
-	public ResponseEntity<StandardError> databaseException(DatabaseException ex, HttpServletRequest request) {
-		
-		StandardError error = new StandardError();
-		
-		HttpStatus status = HttpStatus.BAD_REQUEST;
-		
-		error.setTimestamp(Instant.now());
-		error.setStatus(status.value());
-		error.setError("Database exception.");
-		error.setMessage(ex.getMessage());
-		error.setPath(request.getRequestURI());
+		error.setPath(req.getRequestURI());
 		
 		return ResponseEntity.status(status).body(error);
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ValidationError> validationError(MethodArgumentNotValidException ex, HttpServletRequest request) {
+	public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException ex, HttpServletRequest req) {
 		
 		ValidationError error = new ValidationError();
 		
@@ -60,28 +58,14 @@ public class ControllerExceptionHandler {
 		
 		error.setTimestamp(Instant.now());
 		error.setStatus(status.value());
-		error.setError("Validation exception.");
+		error.setError("Validation Exception.");
 		error.setMessage(ex.getMessage());
-		error.setPath(request.getRequestURI());
+		error.setPath(req.getRequestURI());
 		
 		for(FieldError field : ex.getBindingResult().getFieldErrors()) {
-			error.addErrorInList(field.getField(), field.getDefaultMessage());
+			error.addFiledMessage(field.getField(), field.getDefaultMessage());
 		}
 		
-		return ResponseEntity.status(status).body(error);		
-	}
-	
-	@ExceptionHandler(ForbiddenException.class)
-	public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException ex, HttpServletRequest request) {
-		OAuthCustomError error = new OAuthCustomError("Forbidden", ex.getMessage());
-		
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-	}
-	
-	@ExceptionHandler(UnauthorizedException.class)
-	public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException ex, HttpServletRequest request) {
-		OAuthCustomError error = new OAuthCustomError("Unauthorized", ex.getMessage());
-		
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+		return ResponseEntity.status(status).body(error);
 	}
 }

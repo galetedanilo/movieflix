@@ -1,4 +1,4 @@
-package com.devsuperior.movieflix.services.exceptions;
+package com.devsuperior.movieflix.services.exception;
 
 public class DatabaseException extends RuntimeException {
 	

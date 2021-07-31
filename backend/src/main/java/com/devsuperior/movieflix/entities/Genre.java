@@ -1,7 +1,6 @@
 package com.devsuperior.movieflix.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +15,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_genre")
 public class Genre implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long id;
 	@Column(unique = true)
 	private String name;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant createdAt;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant updateAt;
 	
 	@OneToMany(mappedBy = "genre")
 	private List<Movie> movies = new ArrayList<>();
@@ -36,45 +31,27 @@ public class Genre implements Serializable {
 		
 	}
 	
-	public Genre(Long id, String name, Instant createdAt, Instant updateAt) {
+	public Genre(Long id, String name) {
 		this.id = id;
 		this.name = name;
-		this.createdAt = createdAt;
-		this.updateAt = updateAt;
 	}
 	
 	public Long getId() {
 		return id;
 	}
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Instant createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Instant getUpdateAt() {
-		return updateAt;
-	}
-
-	public void setUpdateAt(Instant updateAt) {
-		this.updateAt = updateAt;
-	}
-
+	
 	public List<Movie> getMovies() {
 		return movies;
 	}
@@ -103,12 +80,6 @@ public class Genre implements Serializable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Genre [id=" + id + ", name=" + name + "]";
-	}
-	
 	
 	
 }

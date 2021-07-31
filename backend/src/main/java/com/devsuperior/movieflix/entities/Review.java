@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_review")
 public class Review implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -22,24 +22,24 @@ public class Review implements Serializable {
 	private String text;
 	
 	@ManyToOne
-	@JoinColumn(name = "movie_id")
-	private Movie movie;
-	
-	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "movie_id")
+	private Movie movie;
 	
 	public Review() {
 		
 	}
-	
-	public Review(Long id, String text, Movie movie, User user) {
+
+	public Review(Long id, String text, User user, Movie movie) {
 		this.id = id;
 		this.text = text;
-		this.movie = movie;
 		this.user = user;
+		this.movie = movie;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -56,14 +56,6 @@ public class Review implements Serializable {
 		this.text = text;
 	}
 
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -72,33 +64,16 @@ public class Review implements Serializable {
 		this.user = user;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public Movie getMovie() {
+		return movie;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Review other = (Review) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public void setMovie(Movie movie) {
+		this.movie = movie;
 	}
+	
+	
+	
+	
 
-	@Override
-	public String toString() {
-		return "Review [id=" + id + ", text=" + text + "]";
-	}
 }

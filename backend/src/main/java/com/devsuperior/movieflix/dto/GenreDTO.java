@@ -2,18 +2,14 @@ package com.devsuperior.movieflix.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotBlank;
-
 import com.devsuperior.movieflix.entities.Genre;
 
-public class GenreDTO implements Serializable {
-	
+public class GenreDTO implements Serializable{
+
 	private static final long serialVersionUID = 1L;
-
+	
 	private Long id;
-	@NotBlank(message = "The name field is required!")
 	private String name;
-
 	
 	public GenreDTO() {
 		
@@ -23,7 +19,7 @@ public class GenreDTO implements Serializable {
 		this.id = id;
 		this.name = name;
 	}
-
+	
 	public GenreDTO(Genre entity) {
 		id = entity.getId();
 		name = entity.getName();
@@ -44,5 +40,4 @@ public class GenreDTO implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

@@ -17,38 +17,37 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_movie")
 public class Movie implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true)
 	private String title;
 	private String subTitle;
-	private Integer year;
-	private String imgUrl;
 	@Column(columnDefinition = "TEXT")
 	private String synopsis;
+	private Integer year;
+	private String imgUrl;
+	
+	@OneToMany(mappedBy = "movie")
+	private List<Review> reviews = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "genre_id")
 	private Genre genre;
 	
-	@OneToMany(mappedBy = "movie")
-	private List<Review> reviews = new ArrayList<>();
-	
 	public Movie() {
 		
 	}
 
-	public Movie(Long id, String title, String subTitle, Integer year, String imgUrl, String synopsis, Genre genre) {
+	public Movie(Long id, String title, String subTitle, String synopsis, Integer year, String imgUrl, Genre genre) {
 		this.id = id;
 		this.title = title;
 		this.subTitle = subTitle;
+		this.synopsis = synopsis;
 		this.year = year;
 		this.imgUrl = imgUrl;
-		this.synopsis = synopsis;
 		this.genre = genre;
 	}
 
@@ -76,6 +75,14 @@ public class Movie implements Serializable {
 		this.subTitle = subTitle;
 	}
 
+	public String getSynopsis() {
+		return synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
+	}
+
 	public Integer getYear() {
 		return year;
 	}
@@ -90,14 +97,6 @@ public class Movie implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
-	}
-
-	public String getSynopsis() {
-		return synopsis;
-	}
-
-	public void setSynopsis(String synopsis) {
-		this.synopsis = synopsis;
 	}
 
 	public Genre getGenre() {
@@ -136,12 +135,5 @@ public class Movie implements Serializable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "Movie [id=" + id + ", title=" + title + ", subTitle=" + subTitle + ", year=" + year + ", imgUrl="
-				+ imgUrl + ", synopsis=" + synopsis + ", genre=" + genre.getName() + "]";
-	}
-	
-	
+		
 }

@@ -1,4 +1,3 @@
-
 package com.devsuperior.movieflix.entities;
 
 import org.junit.jupiter.api.Assertions;
