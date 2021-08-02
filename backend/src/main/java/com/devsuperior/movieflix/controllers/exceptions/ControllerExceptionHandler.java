@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -67,5 +69,15 @@ public class ControllerExceptionHandler {
 		}
 		
 		return ResponseEntity.status(status).body(error);
+	}
+	
+	@ExceptionHandler(UnauthorizedUserException.class)
+	public ResponseEntity<OAuth2Exception> unauthorizedException(UnauthorizedUserException ex, HttpServletRequest req) {
+		
+		OAuth2Exception error = new OAuth2Exception(ex.getMessage());
+		
+		System.out.println(ex.getMessage());
+		
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
 	}
 }
