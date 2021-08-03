@@ -27,7 +27,7 @@ public class ResourceServiceConfig extends ResourceServerConfigurerAdapter {
 	
 	private static final String[] PUBLIC = { "/oauth/token" };
 	
-	private static final String[] VISITOR_OR_MEMBER = { "/users/profile", "/movies/**", "/genres/**" };
+	private static final String[] VISITOR_OR_MEMBER = { "/users/profile", "/movies/**", "/reviews/**", "/genres/**" };
 	
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {

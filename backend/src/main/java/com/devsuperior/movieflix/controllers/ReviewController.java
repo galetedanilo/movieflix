@@ -5,6 +5,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class ReviewController implements Serializable {
 	private ReviewService service;
 	
 	@PostMapping
-	public ResponseEntity<ReviewMinDTO> insert(@RequestBody ReviewMinDTO dto) {
+	public ResponseEntity<ReviewMinDTO> insert(@RequestBody @Validated ReviewMinDTO dto) {
 		
 		dto = service.insert(dto);
 		
